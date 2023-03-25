@@ -21,6 +21,21 @@ contract CrowdFunding {
      function createCampaign(address _owner, string memory _title, string memory _description, uint256 _target, uint256 _deadline, string memory _image) public returns (uint256) {
         Campaign storage campaign = campaigns[numberOfCampaigns];
 
+        require(campaign.deadline < block.timestamp, "The deadline should be a date in the future.");
+
+        campaign.owner = _owner;
+        campaign.title = _title;
+        campaign.description = _description;
+        campaign.target = _target;
+        campaign.deadline = _deadline;
+        campaign.amountCollected = 0;
+        campaign.image = _image;
+
+        numberOfCampaigns++;
+
+        return numberOfCampaigns - 1;
+    }
+
 
     function donateToCampaign() {}
 
